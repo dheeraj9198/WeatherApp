@@ -60,12 +60,12 @@ public class ForecastFragment extends Fragment {
 
     private String formatHighlow(double high,double low) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String unitType = sharedPreferences.getString(getString(R.string.temperature_key),getString(R.string.temp_default_value));
+        String unitType = sharedPreferences.getString(getString(R.string.temperature_key),getString(R.string.temperature_celsius));
 
-        if(unitType.equals(getString(R.string.temp_default_celsius))){
-            Toast.makeText(getActivity(),getString(R.string.temp_default_celsius),Toast.LENGTH_LONG).show();
+        if(unitType.equals(getString(R.string.temperature_celsius))){
+            Toast.makeText(getActivity(),getString(R.string.temperature_celsius),Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(getActivity(),getString(R.string.temp_default_fahrenheit),Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),getString(R.string.temperature_fahrenheit),Toast.LENGTH_LONG).show();
         }
         return "done";
     }

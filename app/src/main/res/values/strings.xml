@@ -8,10 +8,11 @@
     <string name="title_activity_detail">DetailActivity</string>
 
     <string name="location_key">location</string>
-    <string name="temperature_key">temperature</string>
-    <string name="temp_default_value">CELSIUS</string>
+    <string name="default_location">94043</string>
 
-    <string name="temp_default_celsius">CELSIUS</string>
-    <string name="temp_default_fahrenheit">FAHRENHEIT</string>
+
+    <string name="temperature_key">temperature</string>
+    <string name="temperature_celsius">CELSIUS</string>
+    <string name="temperature_fahrenheit">FAHRENHEIT</string>
 
 </resources>
