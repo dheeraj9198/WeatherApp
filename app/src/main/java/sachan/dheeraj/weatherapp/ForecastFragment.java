@@ -5,9 +5,12 @@ package sachan.dheeraj.weatherapp;
  */
 
 import android.app.LauncherActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,9 +47,15 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            Toast.makeText(getActivity(), "updating data", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "updating data", Toast.LENGTH_LONG).show();
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-            fetchWeatherTask.execute("94043");
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String location = prefs.getString("location", "none");
+
+            Toast.makeText(getActivity(),location,Toast.LENGTH_LONG).show();
+
+            fetchWeatherTask.execute(location);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -102,7 +111,8 @@ public class ForecastFragment extends Fragment {
 
         @Override
         protected String[] doInBackground(String... params) {
-            String response = HttpAgent.get("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+
+            String response = HttpAgent.get("http://api.openweathermap.org/data/2.5/forecast/daily?q="+params[0]+"&mode=json&units=metric&cnt=7");
             Log.v(TAG, "-------------------------------------------------------");
             Log.v(TAG, response == null ? "no response" : response);
             Log.v(TAG, "-------------------------------------------------------");
