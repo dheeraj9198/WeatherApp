@@ -41,7 +41,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            Toast.makeText(getActivity(), "sensding request", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "updating data", Toast.LENGTH_LONG).show();
             FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
             fetchWeatherTask.execute("94043");
             return true;
@@ -86,9 +86,9 @@ public class ForecastFragment extends Fragment {
         @Override
         protected String[] doInBackground(String... params) {
             String response = HttpAgent.get("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
-            Log.e(TAG, "-------------------------------------------------------");
-            Log.e(TAG, response);
-            Log.e(TAG, "-------------------------------------------------------");
+            Log.v(TAG, "-------------------------------------------------------");
+            Log.v(TAG, response);
+            Log.v(TAG, "-------------------------------------------------------");
             if (response != null) {
                 WeatherApiResponse weatherApiResponse = JsonHandler.parse(response, WeatherApiResponse.class);
                 return weatherApiResponse.getStringsArray();
@@ -100,9 +100,7 @@ public class ForecastFragment extends Fragment {
         public void onPostExecute(String[] strings) {
             if (strings != null) {
                 stringArrayAdapter.clear();
-                for (String s : strings) {
-                    stringArrayAdapter.add(s);
-                }
+                    stringArrayAdapter.addAll(strings);
             }
         }
     }
