@@ -1,6 +1,16 @@
 <resources>
     <string name="title_activity_settings">Settings</string>
 
+    <string-array name="temp_values">
+        <item>CELSIUS</item>
+        <item>FAHRENHEIT</item>
+    </string-array>
+
+    <string-array name="temp_options">
+        <item>Celsius</item>
+        <item>Fahrenheit</item>
+    </string-array>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

@@ -25,7 +25,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import HttpAgent.HttpAgent;
@@ -57,6 +56,18 @@ public class ForecastFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String formatHighlow(double high,double low) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String unitType = sharedPreferences.getString(getString(R.string.temperature_key),getString(R.string.temp_default_value));
+
+        if(unitType.equals(getString(R.string.temp_default_celsius))){
+            Toast.makeText(getActivity(),getString(R.string.temp_default_celsius),Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getActivity(),getString(R.string.temp_default_fahrenheit),Toast.LENGTH_LONG).show();
+        }
+        return "done";
     }
 
     private void updateWeather(){

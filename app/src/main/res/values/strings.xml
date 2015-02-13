@@ -7,4 +7,11 @@
     <string name="action_refresh">Refresh</string>
     <string name="title_activity_detail">DetailActivity</string>
 
+    <string name="location_key">location</string>
+    <string name="temperature_key">temperature</string>
+    <string name="temp_default_value">CELSIUS</string>
+
+    <string name="temp_default_celsius">CELSIUS</string>
+    <string name="temp_default_fahrenheit">FAHRENHEIT</string>
+
 </resources>
