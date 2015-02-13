@@ -1,9 +1,11 @@
 package sachan.dheeraj.weatherapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 // http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7
 // https://gist.github.com/anonymous/1c04bf2423579e9d2dcd
@@ -36,7 +38,10 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_settings){
+            Toast.makeText(MainActivity.this, "starting settings", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

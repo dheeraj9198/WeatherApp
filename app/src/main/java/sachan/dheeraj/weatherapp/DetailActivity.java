@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class DetailActivity extends ActionBarActivity {
@@ -53,6 +54,9 @@ public class DetailActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(DetailActivity.this, "starting settings", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(DetailActivity.this,SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
