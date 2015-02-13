@@ -5,6 +5,7 @@ package sachan.dheeraj.weatherapp;
  */
 
 import android.app.LauncherActivity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,7 +77,11 @@ public class ForecastFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),position+"*"+itemList.get(position),Toast.LENGTH_LONG).show();
+                String data = stringArrayAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(),DetailActivity.class);
+                intent.putExtra(Intent.EXTRA_TEXT,data);
+                startActivity(intent);
+                //Toast.makeText(getActivity(),position+"*"+data,Toast.LENGTH_LONG).show();
             }
         });
 
