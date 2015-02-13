@@ -4,6 +4,7 @@ package sachan.dheeraj.weatherapp;
  * Created by dheeraj on 12/2/15.
  */
 
+import android.app.LauncherActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -63,11 +65,21 @@ public class ForecastFragment extends Fragment {
                 "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen"};
 
         itemList = new ArrayList<String>(Arrays.asList(list));
-        stringArrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textview, itemList);
+        stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.list_item_forecast,
+                R.id.list_item_forecast_textview, itemList);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(stringArrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(),position+"*"+itemList.get(position),Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         return rootView;
     }
@@ -87,7 +99,7 @@ public class ForecastFragment extends Fragment {
         protected String[] doInBackground(String... params) {
             String response = HttpAgent.get("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
             Log.v(TAG, "-------------------------------------------------------");
-            Log.v(TAG, response);
+            Log.v(TAG, response == null ? "no response" : response);
             Log.v(TAG, "-------------------------------------------------------");
             if (response != null) {
                 WeatherApiResponse weatherApiResponse = JsonHandler.parse(response, WeatherApiResponse.class);
