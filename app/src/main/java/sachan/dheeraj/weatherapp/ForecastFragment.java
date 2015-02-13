@@ -44,21 +44,28 @@ public class ForecastFragment extends Fragment {
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            //Toast.makeText(getActivity(), "updating data", Toast.LENGTH_LONG).show();
-            FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
-
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String location = prefs.getString("location", "none");
-
-            Toast.makeText(getActivity(),location,Toast.LENGTH_LONG).show();
-
-            fetchWeatherTask.execute(location);
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updateWeather(){
+        //Toast.makeText(getActivity(), "updating data", Toast.LENGTH_LONG).show();
+        FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString("location", "none");
+        Toast.makeText(getActivity(),location,Toast.LENGTH_LONG).show();
+        fetchWeatherTask.execute(location);
     }
 
     @Override
@@ -71,10 +78,10 @@ public class ForecastFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String[] list = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-                "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen"};
+       /* String[] list = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+                "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen"};*/
 
-        itemList = new ArrayList<String>(Arrays.asList(list));
+        itemList = new ArrayList<String>(/*Arrays.asList(list)*/);
         stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview, itemList);
