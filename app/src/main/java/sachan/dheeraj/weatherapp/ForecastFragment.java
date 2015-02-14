@@ -58,23 +58,10 @@ public class ForecastFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private String formatHighlow(double high,double low) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String unitType = sharedPreferences.getString(getString(R.string.temperature_key),getString(R.string.temperature_celsius));
-
-        if(unitType.equals(getString(R.string.temperature_celsius))){
-            Toast.makeText(getActivity(),getString(R.string.temperature_celsius),Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(getActivity(),getString(R.string.temperature_fahrenheit),Toast.LENGTH_LONG).show();
-        }
-        return "done";
-    }
-
     private void updateWeather(){
-        //Toast.makeText(getActivity(), "updating data", Toast.LENGTH_LONG).show();
         FetchWeatherTask fetchWeatherTask = new FetchWeatherTask();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String location = prefs.getString("location", "none");
+        String location = prefs.getString(getString(R.string.location_key),getString(R.string.default_location));
         Toast.makeText(getActivity(),location,Toast.LENGTH_LONG).show();
         fetchWeatherTask.execute(location);
     }
@@ -122,13 +109,13 @@ public class ForecastFragment extends Fragment {
         menuInflater.inflate(R.menu.forecastfragment, menu);
     }
 
-    private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
+    private class FetchWeatherTask extends AsyncTask<String, Void,  WeatherApiResponse.Temp[]> {
 
         //google Best practises
         private final String TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
-        protected String[] doInBackground(String... params) {
+        protected WeatherApiResponse.Temp[] doInBackground(String... params) {
 
             String response = HttpAgent.get("http://api.openweathermap.org/data/2.5/forecast/daily?q="+params[0]+"&mode=json&units=metric&cnt=7");
             Log.v(TAG, "-------------------------------------------------------");
@@ -136,16 +123,35 @@ public class ForecastFragment extends Fragment {
             Log.v(TAG, "-------------------------------------------------------");
             if (response != null) {
                 WeatherApiResponse weatherApiResponse = JsonHandler.parse(response, WeatherApiResponse.class);
+
+
+
                 return weatherApiResponse.getStringsArray();
             }
             return null;
         }
 
         @Override
-        public void onPostExecute(String[] strings) {
-            if (strings != null) {
+        public void onPostExecute(WeatherApiResponse.Temp[] temps) {
+            if (temps != null) {
                 stringArrayAdapter.clear();
-                    stringArrayAdapter.addAll(strings);
+                for(WeatherApiResponse.Temp temp : temps){
+                    stringArrayAdapter.add(formatHighlow(temp.getMax(),temp.getMin()));
+                }
+            }
+        }
+
+        private String formatHighlow(float high,float low) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String unitType;
+            if(sharedPreferences == null || (unitType = sharedPreferences.getString(getString(R.string.temperature_key),getString(R.string.temperature_celsius))) == null ){
+                return high+" N"+"/"+low+"N";
+            }
+
+            if(unitType.equals(getString(R.string.temperature_celsius))){
+                return high+" C"+"/"+low+"C";
+            }else{
+                return high+" F"+"/"+low+"F";
             }
         }
     }

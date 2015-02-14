@@ -18,16 +18,16 @@ public class WeatherApiResponse {
         this.list = list;
     }
 
-    public String[] getStringsArray(){
-        String[] strings = new String[list.size()];
+    public Temp[] getStringsArray(){
+        Temp[] temps = new Temp[list.size()];
         Iterator<ResponseItem> responseItemIterator = list.iterator();
 
         int index = 0;
         while(responseItemIterator.hasNext()){
-            strings[index]=responseItemIterator.next().toString();
+            temps[index]=responseItemIterator.next().getTemp();
             index++;
         }
-        return strings;
+        return temps;
     }
 
     public static final class ResponseItem{
